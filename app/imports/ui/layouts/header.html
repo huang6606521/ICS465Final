@@ -1,0 +1,36 @@
+<template name="Header">
+  {{#unless currentUser}}
+  <img style="max-height: 300px" class="ui fluid image" src="/images/header1.png">
+  {{/unless}}
+
+  <div style="margin-top: 0px; border-radius: 0px; background-color: #25A574" class="ui borderless inverted menu">
+    <div class="ui container">
+      <div class="item">
+        <h1 class="ui inverted header">
+          <img src="/images/CSLogo1W.png">
+        </h1>
+      </div>
+
+      {{#if currentUser}}
+      {{> Profile_Dropdown}}
+      <a class="{{ isActiveRoute 'Study_Session_Page'}} item" href="{{ pathFor 'Study_Session_Page' }}">Study
+        Sessions</a>
+      <!--<a class="{{ isActiveRoute 'Studs_Pros_Page'}} item" href="{{ pathFor 'Studs_Pros_Page' }}">Studs/Pros</a>-->
+      <a class="{{ isActiveRoute 'Calendar_Page'}} item" href="{{ pathFor 'Calendar_Page' }}">Calendar</a>
+      <a class="{{ isActiveRoute 'Messages_Page'}} item" href="{{ pathFor 'Messages_Page' }}">Chat Room</a>
+      {{#if isAdmin}}
+      <a class="{{ isActiveRoute 'Reports_Page'}} item" href="{{ pathFor 'Reports_Page' }}">Reports</a>
+      {{/if}}
+      {{/if}}
+      {{> Cas_Login }}
+      {{#if currentUser}}
+      {{#if tutorials}}
+        <a class="right item tutorials-off"><div data-tooltip="Toggle Tutorials" data-position="bottom center"><i class="large toggle off icon"></i></div></a>
+      {{else}}
+        <a class="right item tutorials-on"><div data-tooltip="Toggle Tutorials" data-position="bottom center"><i class="large toggle on icon"></i></div></a>
+      {{/if}}
+      {{/if}}
+
+    </div>
+  </div>
+</template>

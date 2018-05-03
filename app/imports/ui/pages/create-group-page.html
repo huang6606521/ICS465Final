@@ -1,0 +1,67 @@
+<template name="Create_Group_Page">
+  <div class="ui raised segment container">
+    <form class="ui form group-data-form {{ errorClass }}">
+      <!--<h2 class="ui dividing header">Create a Study Session</h2>-->
+      <div class="field">
+
+        <div class="field">
+          <label>Group Name</label>
+          <div class="field">
+            <input type="text" name="name" id="name" placeholder="Name your group.">
+          </div>
+          {{#if displayFieldError 'name' }}
+          <div class="ui error message">
+          <p>You must specify the group name.</p>
+          </div>
+          {{/if}}
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <div class="field">
+            <input type="text" name="description" id="description" placeholder="Description of your group.">
+          </div>
+          {{#if displayFieldError 'description' }}
+          <div class="ui error message">
+            <p>Please type a description for your group.</p>
+          </div>
+          {{/if}}
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>Course</label>
+            <select class="ui fluid search dropdown" name="course" id="course">
+              <option value="">Select a Course</option>
+              <option value="ICS 111">ICS 111 - Introduction to Computer Science I</option>
+              <option value="ICS 141">ICS 141 - Discrete Mathematics for Computer Science I</option>
+              <option value="ICS 211">ICS 211 - Introduction to Computer Science II</option>
+              <option value="ICS 241">ICS 241 - Discrete Mathematics for Computer Science II</option>
+              <option value="ICS 314">ICS 314 - Software Engineering I</option>
+              <option value="MATH 241">MATH 241 - Calculus I</option>
+              <option value="MATH 242">MATH 242 - Calculus II</option>
+              <option value="MATH 371">MATH 371 - Elementary Probability Theory</option>
+            </select>
+            {{#if displayFieldError 'course' }}
+            <div class="ui error message">
+            <p>Please specify the course of this session.</p>
+            </div>
+            {{/if}}
+          </div>
+          <div class="field">
+            <label>Photo URL</label>
+            <div class="field">
+              <input type="text" name="image" id="image" placeholder="Copy a url of a picture for your group">
+            </div>
+            {{#if displayFieldError 'image' }}
+            <div class="ui error message">
+            <p>Please type a URL for your group.</p>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <button class="ui teal button" type="submit">Create Group</button>
+      <button class="ui red button cancel">Cancel</button>
+    </form>
+  </div>
+
+</template>

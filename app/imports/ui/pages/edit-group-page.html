@@ -1,0 +1,113 @@
+<template name="Edit_Group_Page">
+  <div class="ui raised segment container">
+    <form class="ui form group-data-form {{ errorClass }}">
+      <!--<h2 class="ui dividing header">Create a Study Session</h2>-->
+      <div class="field">
+
+        <div class="field">
+          <label>Group Name</label>
+          <div class="field">
+            <input type="text" name="name" id="name" placeholder="Name your group." value="{{ groupDataField 'name' }}">
+          </div>
+          {{#if displayFieldError 'name' }}
+          <div class="ui error message">
+          <p>You must specify the group name.</p>
+          </div>
+          {{/if}}
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <div class="field">
+            <input type="text" name="description" id="description" placeholder="Description of your group." value="{{ groupDataField 'description' }}">
+          </div>
+          {{#if displayFieldError 'description' }}
+          <div class="ui error message">
+            <p>Please type a description for your group.</p>
+          </div>
+          {{/if}}
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>Course</label>
+            <select class="ui fluid search dropdown" name="course" id="course">
+              <option value="">Select a Course</option>
+              <option value="ICS 111" selected={{ courseSelected 'ICS 111' }}> ICS 111 - Introduction to Computer Science I</option>
+              <option value="ICS 141" selected={{ courseSelected 'ICS 141' }}>ICS 141 - Discrete Mathematics for Computer Science I</option>
+              <option value="ICS 211" selected={{ courseSelected 'ICS 211' }}>ICS 211 - Introduction to Computer Science II</option>
+              <option value="ICS 241" selected={{ courseSelected 'ICS 241' }}>ICS 241 - Discrete Mathematics for Computer Science II</option>
+              <option value="ICS 314" selected={{ courseSelected 'ICS 314' }}>ICS 314 - Software Engineering I</option>
+              <option value="MATH 241" selected={{ courseSelected 'MATH 241' }}>MATH 241 - Calculus I</option>
+              <option value="MATH 242" selected={{ courseSelected 'MATH 242' }}>MATH 242 - Calculus II</option>
+              <option value="MATH 371" selected={{ courseSelected 'MATH 371' }}>MATH 371 - Elementary Probability Theory</option>
+            </select>
+            {{#if displayFieldError 'course' }}
+            <div class="ui error message">
+            <p>Please specify the course of this session.</p>
+            </div>
+            {{/if}}
+          </div>
+          <div class="field">
+            <label>Photo URL</label>
+            <div class="field">
+              <input type="text" name="image" id="image" placeholder="Copy a url of a picture for your group" value="{{ groupDataField 'image' }}">
+            </div>
+            {{#if displayFieldError 'image' }}
+            <div class="ui error message">
+            <p>Please type a URL for your group.</p>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <button class="ui teal button" type="submit">Edit Group</button>
+
+      <!--Admins can delete whole group-->
+      {{#if isLeader}}
+      <button class="ui red delete-group button">Delete</button>
+      <div class="ui basic modal delete-group-modal">
+        <div class="ui icon header">
+          <i class="warning sign icon"></i>
+          Delete Group
+        </div>
+        <div class="content">
+          <p>Are you sure you want to delete this group?</p>
+        </div>
+        <div class="actions">
+          <div class="ui red cancel confirm-delete-group button">
+            <i class="remove icon"></i>
+            No
+          </div>
+          <div class="ui green ok confirm-delete-group button">
+            <i class="checkmark icon"></i>
+            Yes
+          </div>
+        </div>
+      </div>
+      {{else}}
+      <!--Regular members can only leave group-->
+      <button class="ui red leave-group button">Leave</button>
+      <div class="ui basic modal leave-group-modal">
+        <div class="ui icon header">
+          <i class="warning sign icon"></i>
+          Leave Group
+        </div>
+        <div class="content">
+          <p>Are you sure you want to leave this group?</p>
+        </div>
+        <div class="actions">
+          <div class="ui red cancel confirm-leave-group button">
+            <i class="remove icon"></i>
+            No
+          </div>
+          <div class="ui green ok confirm-leave-group button">
+            <i class="checkmark icon"></i>
+            Yes
+          </div>
+        </div>
+      </div>
+      {{/if}}
+      <button class="ui red right floated button cancel">Cancel</button>
+    </form>
+  </div>
+
+</template>

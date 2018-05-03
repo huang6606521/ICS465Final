@@ -1,0 +1,58 @@
+<template name="Reports_Page">
+  {{#if isAdmin}}
+    {{#if hasTutorial}}
+      <div class="ui yellow message transition container">
+        <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+        <i class="close icon"></i>
+        <div class="header">
+          <h1>Tutorial</h1>
+        </div>
+        <p>Welcome administrator! Here you sort through all the reviews submitted on the site. If you find a review
+          inappropriate, select "Remove" and it will be removed from the site. Otherwise, select "Allow", so it will be
+          removed from this feed, but remain on the user's review page.</p>
+      </div>
+    {{/if}}
+
+    <div class="ui raised segment container">
+      <h2 class="ui header">Recent Reviews</h2>
+      <div class="ui large feed">
+        {{#each review in reviewsListChecked}}
+          <div class="event">
+            <div style="width: 5em" class="ui label">
+              <i style="margin-top: 10px; margin-bottom: 10px" class="yellow star icon"></i>
+              <div style="font-size: 15px" class="detail">{{review.rating}}</div>
+            </div>
+            <div class="content">
+              <div class="summary">
+                <h3 name="title">{{review.title}}</h3>
+                <div class="ui right floated buttons">
+                  <button class="ui medium green allow-button button" type="button" id="{{review._id}}">Allow</button>
+                  <div class="or"></div>
+                  <button class="ui medium red remove-button button" type="button" id="{{review._id}}">Remove</button>
+                </div>
+                <div class="extra text">
+                  {{review.review}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+        {{/each}}
+      </div>
+    </div>
+  {{else}}
+    {{> App_Not_Found}}
+  {{/if}}
+
+  <script>
+    $('.message .close')
+        .on('click', function () {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>

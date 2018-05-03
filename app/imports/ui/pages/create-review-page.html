@@ -1,0 +1,29 @@
+<template name="Create_Review_Page">
+  <div class="ui raised segment container">
+    <form class="ui form review-data-form {{ errorClass }}">
+      <label><h3>Rating:</h3></label>
+      <div class="field">
+        <div class="ui huge star enable rating" data-max-rating="5" type="number" name="rating" id="rating"></div>
+      </div>
+      <div class="field">
+        <label><h3>Title:</h3></label>
+        <textarea rows="1" type="text" name="title" id="title" placeholder="Title"></textarea>
+        {{#if displayFieldError 'title' }}
+        <div class="ui error message">
+          <p>You must insert a title.</p>
+        </div>
+        {{/if}}
+      </div>
+      <div class="field">
+        <label><h3>Review</h3></label>
+        <textarea type="text" name="review" id="review" placeholder="Tell us how you feel."></textarea>
+        {{#if displayFieldError 'review' }}
+        <div class="ui error message">
+          <p>You must insert a review.</p>
+        </div>
+        {{/if}}
+      </div>
+      <button style="background-color:#25A574" class="ui submit button" type="submit">Submit</button>
+    </form>
+  </div>
+</template>

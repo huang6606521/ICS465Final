@@ -1,0 +1,97 @@
+<template name="Group_Page">
+  {{#if hasTutorial}}
+  <div class="ui yellow message transition container">
+    <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+    <i class="close icon"></i>
+    <div class="header">
+      <h1>Tutorial</h1>
+    </div>
+    <p>On CS, users can form study groups to make it easier to study with the people you want to.</p>
+    <p>Like studying with the same Pros on a certain course? Enjoy struggling over the same problems with your
+      friends? Form a group with them!</p>
+    <h2 style="margin: 0px;">Using Groups</h2>
+    <p>
+    <ul>
+      <li>Simply click the "Create Group" button at the bottom of the page to start a new group</li>
+      <li>Click a group's name to be directed to it's details page, where you can add members and alter group
+        information
+      </li>
+      <li>Once you've finished editing a group, you can start a study session by clicking "Start a Study Session"
+      </li>
+    </ul>
+    </p>
+  </div>
+  {{/if}}
+
+  {{#if Template.subscriptionsReady}}
+  <div class="ui raised segment container">
+    <div class="ui container">
+      <table class="ui very basic stackable celled table">
+        <thead>
+        <tr>
+          <th>
+            <div class="ui left floated compact segment" style="border: none; box-shadow: none; padding: 5px;">
+              <h2 class="ui header">Groups</h2>
+            </div>
+            <div class="ui right floated compact segment" style="border: none; box-shadow: none; padding: 0px;">
+              <button class="ui animated fade green button create-group">
+                <div class="visible content">
+                  <i class="icons">
+                    <i class="inverted users icon"></i>
+                    <i class="inverted corner add icon"></i>
+                  </i>
+                </div>
+                <div class="hidden content">Add</div>
+              </button>
+              <div class="ui modal groups-modal">
+                {{>Create_Group_Page}}
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each group in groupsList}}
+        {{#if isMember group}}
+        <tr>
+          <td style="width: 800px">
+            <h3 class="ui image header">
+              <img class="ui tiny image" src="{{ group.image }}">
+              <div class="content">
+                <a href="{{pathFor 'Group_Details_Page' _id=group._id}}">{{group.name}}</a>
+                <div class="sub header">{{group.description}}</div>
+              </div>
+            </h3>
+            <!--<button class="ui teal right floated labeled icon button create-session">-->
+            <!--<i class="book icon"></i>-->
+            <!--Start a Study Session-->
+            <!--</button>-->
+            <!--<div class="ui modal sessions-modal">-->
+            <!--{{>Create_Study_Session_Page}}-->
+            <!--</div>-->
+          </td>
+        </tr>
+        {{/if}}
+        {{/each}}
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+  {{else}}
+  {{> Loading}}
+  {{/if}}
+
+  <script>
+    $('.message .close')
+        .on('click', function () {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>

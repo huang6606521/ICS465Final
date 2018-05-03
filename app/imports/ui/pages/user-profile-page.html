@@ -1,0 +1,216 @@
+<template name="User_Profile_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>This is your profile page! You should add your information here so other's can get to know you.</p>
+      <h2 style="margin: 0px;">What's a Pro and Stud?</h2>
+      <h3>"Pros" = Professionals</h3>
+      <p>List the courses you're strong in under "Pros". Make sure they're classes you're comfortable teaching, since
+        others may ask you to lead a study session on it!</p>
+      <h3>"Studs" = Students</h3>
+      <p>List the courses you're weak in under "Studs". Pros may reach out to you to help you with these courses.</p>
+      <h3>Editing Courses You've Listed</h3>
+      <p>To edit the proficiency of a course you've listed, click the course number and select the proficiency you'd
+        like to replace it with. Click the x to the right of the course to delete it.</p>
+    </div>
+  {{/if}}
+
+  {{#if Template.subscriptionsReady}}
+    <div id="newUser" class="ui modal">
+      {{> Create_New_User_Modal}}
+    </div>
+
+    <div class="ui raised segment container">
+      <h2>{{ getUserName}}</h2>
+      {{#if userExists}}
+      {{else}}
+        <script>
+          $('#newUser').modal({ blurring: true, closable: false }).modal('show');
+        </script>
+      {{/if}}
+    </div>
+
+    <div class="ui three column grid container">
+      <div class="row">
+        <div class="ui four wide column">
+          <div class="ui raised card profile">
+            <img class="ui medium fluid image" src="{{ getUser.profilePicture }}">
+            <p>Interests: {{ getUser.interests }}</p>
+            <div class="extra">Rate:
+              <div class="ui centered huge star rating" data-rating={{getAverageRate}} data-max-rating="5"></div>
+            </div>
+            {{#with getUserReview}}
+            <a href="{{pathFor 'Review_Page' _id=_id }}">
+              <div class="ui bottom attached reviews button">
+                Reviews
+              </div>
+            </a>
+            {{/with}}
+          </div>
+          {{#if hasTutorial}}
+            <div class="ui yellow message transition container">
+              <i class="close icon"></i>
+              <div class="header">
+                <h3>Hey, over here!</h3>
+              </div>
+              <p>Your star rating is based on reviews other users have written about you. Click on the "Reviews" button
+                above to
+                see what they're written.</p>
+            </div>
+          {{/if}}
+        </div>
+
+        <div class="ui twelve wide column">
+          <div class="ui raised segment">
+            <a class="ui huge teal ribbon label">Pros</a>
+            <!--Show after edit-->
+            <div class="ui accordion">
+              <div class="title">
+                <i class="dropdown icon"></i>
+                Edit Pros
+              </div>
+              <div class="content">
+                <form class="ui form add-pro">
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Course</label>
+                      <select class="ui fluid search dropdown" name="course" id="course">
+                        <option value="">Select a Course</option>
+                        <option value="ICS 111">ICS 111 - Introduction to Computer Science I</option>
+                        <option value="ICS 141">ICS 141 - Discrete Mathematics for Computer Science I</option>
+                        <option value="ICS 211">ICS 211 - Introduction to Computer Science II</option>
+                        <option value="ICS 241">ICS 241 - Discrete Mathematics for Computer Science II</option>
+                        <option value="ICS 314">ICS 314 - Software Engineering I</option>
+                        <option value="MATH 241">MATH 241 - Calculus I</option>
+                        <option value="MATH 242">MATH 242 - Calculus II</option>
+                        <option value="MATH 371">MATH 371 - Elementary Probability Theory</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label>Proficiency Level</label>
+                      <select class="ui fluid search dropdown" name="profLevel" id="profLevel">
+                        <option value="">Select a proficiency level</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        x
+                        <option value="high">High</option>
+                        x
+                      </select>
+                    </div>
+                  </div>
+                  <button class="ui teal button" type="submit">Add</button>
+                </form>
+              </div>
+            </div>
+
+            <div class="ui divided selection list">
+              {{#each course in prosList}}
+                <a class="item">
+                  <div class="editProf ui big {{getProfLevelColor course.profLevel}} horizontal label"
+                       id="{{course.course}}P">{{course.course}}</div>
+                  <div class="ui left pointing label"
+                       style="background-color: #25A574; margin: 0px; position: fixed; visibility: hidden"
+                       id="{{course.course}}PeditID">
+                    Change Proficiency:
+                    <div class="lowButton ui red horizontal label" id="{{course.course}}P">Low</div>
+                    <div class="mediumButton ui yellow horizontal label" id="{{course.course}}P">Medium</div>
+                    <div class="highButton ui green horizontal label" id="{{course.course}}P">High</div>
+                  </div>
+                  {{getCourseTitle course.course}}
+                  <i class="removePro right floated remove icon" id="{{course.course}}"></i>
+                </a>
+              {{/each}}
+            </div>
+          </div>
+
+          <div class="ui raised segment">
+            <a class="ui huge green ribbon label">Studs</a>
+
+            <div class="ui accordion">
+              <div class="title">
+                <i class="dropdown icon"></i>
+                Edit Studs
+              </div>
+              <div class="content">
+                <form class="ui form add-stud">
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Course</label>
+                      <select class="ui fluid search dropdown" name="course2" id="course2">
+                        <option value="">Select a Course</option>
+                        <option value="ICS 111">ICS 111 - Introduction to Computer Science I</option>
+                        <option value="ICS 141">ICS 141 - Discrete Mathematics for Computer Science I</option>
+                        <option value="ICS 211">ICS 211 - Introduction to Computer Science II</option>
+                        <option value="ICS 241">ICS 241 - Discrete Mathematics for Computer Science II</option>
+                        <option value="ICS 314">ICS 314 - Software Engineering I</option>
+                        <option value="MATH 241">MATH 241 - Calculus I</option>
+                        <option value="MATH 242">MATH 242 - Calculus II</option>
+                        <option value="MATH 371">MATH 371 - Elementary Probability Theory</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label>Proficiency Level</label>
+                      <select class="ui fluid search dropdown" name="profLevel2" id="profLevel2">
+                        <option value="">Select a proficiency level</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        x
+                        <option value="high">High</option>
+                        x
+                      </select>
+                    </div>
+                  </div>
+                  <button class="ui teal button" type="submit">Add</button>
+                </form>
+              </div>
+            </div>
+
+
+            <div class="ui divided selection list">
+              {{#each course in studsList}}
+                <a class="item">
+                  <div class="editProf ui big {{getProfLevelColor course.profLevel}} horizontal label"
+                       id="{{course.course}}S">{{course.course}}</div>
+                  <div class="ui left pointing label"
+                       style="background-color: #25A574; margin: 0px; position: fixed; visibility: hidden"
+                       id="{{course.course}}SeditID">
+                    Change Proficiency:
+                    <div class="lowButton ui red horizontal label" id="{{course.course}}S">Low</div>
+                    <div class="mediumButton ui yellow horizontal label" id="{{course.course}}S">Medium</div>
+                    <div class="highButton ui green horizontal label" id="{{course.course}}S">High</div>
+                  </div>
+                  {{getCourseTitle course.course}}
+                  <i class="removeStud right floated remove icon" id="{{course.course}}"></i>
+                </a>
+              {{/each}}
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <script>
+      $('.ui.radio.checkbox').checkbox();
+      $('.ui.accordion').accordion();
+      $('.ui.rating').rating('disable');
+      $('.message .close').on('click', function () {
+        $(this)
+            .closest('.message')
+            .transition('fade')
+        ;
+      })
+      ;
+    </script>
+
+  {{else}}
+    {{>Loading}}
+  {{/if}}
+</template>

@@ -1,0 +1,229 @@
+<template name="Group_Details_Page">
+  {{#if hasTutorial}}
+  <div class="ui yellow message transition container">
+    <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+    <i class="close icon"></i>
+    <div class="header">
+      <h1>Tutorial</h1>
+    </div>
+    <p>Here is you group's detail page.</p>
+    <p>Like studying with the same Pros on a certain course? Enjoy struggling over the same problems with your
+      friends? Form a group with them!</p>
+    <h2 style="margin: 0px;">Changing the Group Name and "About" Section</h2>
+    <p>Click the "edit" button on the right side of the group name.</p>
+    <h2 style="margin: 0px;">Adding New Group Members</h2>
+    <p>Click the "add" button on the right side of the member's section.</p>
+  </div>
+  {{/if}}
+
+  {{#if Template.subscriptionsReady}}
+  <div class="ui grid container">
+
+    <div class="one column row">
+      <div class="ui column raised segment container">
+
+        <div class="ui animated fade teal button right floated edit-group" tabindex="0">
+          <div class="visible content"><i class="large edit icon"></i></div>
+          <div class="hidden content">Edit</div>
+        </div>
+        <div class="ui modal edit-modal">
+          {{>Edit_Group_Page}}
+        </div>
+        <h1 class="floated header">{{ groupDataField 'name'}}</h1>
+      </div>
+    </div>
+
+    <div class="three column row">
+      <div class="ui four wide column">
+        <div class="ui raised segment container">
+          <div class="fluid card">
+            <div class="image">
+              <img class="ui fluid image" src="{{ groupDataField 'image'}}">
+            </div>
+          </div>
+          <div class="ui divided selection list">
+            <h4 class="item">Description: {{ groupDataField 'description'}}</h4>
+          </div>
+        </div>
+        <div class="ui raised segment container">
+          <form class="ui form group-session-form">
+            <h4 class="ui dividing header">Schedule An Upcoming Group Session</h4>
+            <div class="two fields">
+              <div class="field">
+                <label>Month</label>
+                <select class="ui fluid search dropdown" name="month" id="month">
+                  <option value="">Month</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Day</label>
+                <select class="ui fluid search dropdown" name="day" id="day">
+                  <option value="">Day</option>
+                  <option value="01">1</option>
+                  <option value="02">2</option>
+                  <option value="03">3</option>
+                  <option value="04">4</option>
+                  <option value="05">5</option>
+                  <option value="06">6</option>
+                  <option value="07">7</option>
+                  <option value="08">8</option>
+                  <option value="09">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="ui red button" type="submit">Create a Group Study Session</button>
+          </form>
+        </div>
+
+        <div class="ui error message" style="visibility: hidden;" id="dateError">
+          <p>Please enter a month and day to hold a session on.</p>
+        </div>
+
+        <div id="calendar" class="ui modal">
+          {{>Create_Study_Session_Modal}}
+        </div>
+
+      </div>
+      <div class="ui twelve wide column">
+        <div class="ui raised segment">
+          <a class="ui huge green ribbon label">Members</a>
+          <div class="ui animated fade teal button right floated add-member" tabindex="0">
+            <div class="visible content"><i class="large add square icon"></i></div>
+            <div class="hidden content">Add</div>
+          </div>
+          <div class="ui modal add-member-modal">
+            {{>Add_Member_Modal}}
+          </div>
+          <p></p>
+          <div class="ui relaxed horizontal list">
+            {{#each member in membersList}}
+            <div class="item">
+              <img class="ui avatar image" src="{{ getUserAvatar member }}">
+              <div class="content">
+                <a class="header" href="/user-profile/{{getUserId member}}">{{getUserFirst member}} {{getUserLast member}}</a>
+              </div>
+              {{#if isLeader}}
+              <i class="close link icon remove-member" id="{{member}}"></i>
+              {{/if}}
+            </div>
+            {{/each}}
+
+            <div class="ui basic modal confirm-remove-modal">
+              <div class="ui icon header">
+                <i class="warning sign icon"></i>
+                Remove Member
+              </div>
+              <div class="content">
+                <p>Are you sure you want to remove this member?</p>
+              </div>
+              <div class="actions">
+                <div class="ui red cancel confirm-leave-group button">
+                  <i class="remove icon"></i>
+                  No
+                </div>
+                <div class="ui green ok confirm-leave-group button">
+                  <i class="checkmark icon"></i>
+                  Yes
+                </div>
+              </div>
+            </div>
+
+            <div class="ui basic modal cannot-remove-modal">
+              <div class="ui icon header">
+                <i class="warning sign icon"></i>
+                Cannot Remove Member
+              </div>
+              <div class="actions">
+                <div class="ui green ok confirm-leave-group button">
+                  <i class="checkmark icon"></i>
+                  Okay
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="ui raised segment">
+          <a class="ui huge green ribbon label">Posts</a>
+          <form class="new-post">
+            <div class="ui fluid action input" style="margin: 10px">
+              <input type="text" placeholder="What's up?" id="post" name="post">
+              <button class="ui teal button submit">Post</button>
+            </div>
+          </form>
+
+          <div class="ui comments">
+            {{#each post in postsList}}
+            <div class="comment">
+              <a class="avatar">
+                <img src="{{getUserAvatar post.user}}">
+              </a>
+              <div class="content">
+                <a class="author">{{getUserFirst post.user}} {{getUserLast post.user}}</a>
+                <div class="metadata">
+                  <span class="date">{{post.time}}</span>
+                </div>
+                <div class="text">
+                  <p>{{post.post}}</p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    $('.message .close')
+        .on('click', function () {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+  {{else}}
+  {{>Loading}}
+  {{/if}}
+</template>

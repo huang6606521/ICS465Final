@@ -1,0 +1,72 @@
+body {
+  padding-top: 0px; /* Move body of page below navbar. */
+  /*background-image: url("http://www.publicdomainpictures.net/pictures/130000/velka/charcoal-background.jpg");*/
+  background-color: darkslategrey;
+  background-repeat: no-repeat;
+}
+
+#create-study-session-modal {
+  padding: 10px 10px 10px 10px; /* Add padding to the edges of the modal. */
+}
+
+p {
+  font-size: medium;
+}
+
+.ui.segment {
+  border-radius: 0px;
+}
+
+.ui.vertical.fluid.pointing.menu {
+  color: white;
+  background-color: #25A574;
+}
+
+#login-buttons a, .accounts-dialog a {
+  color: white;
+}
+
+.ui.raised.card.profile {
+  padding: 10px 10px 10px 10px;
+}
+
+a.login-close-text {
+  color: black !important;
+}
+
+#create-review-button {
+  background-color: #25A574;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.remove-member {
+  color: white;
+}
+
+.remove-member:hover{
+  color: black;
+}
+
+.fc-event-container {
+  /*padding: 5px !important;*/
+}
+
+.fc-event {
+  padding: 1px 3px;
+  border-color: #ddd;
+  background: #25A574 !important;
+}
+
+.fc-content {
+  color: white;
+}
+
+.calendar-course {
+  margin: 0;
+  font-weight: normal;
+}
+
+.calendar-topic {
+  margin: 0;
+}

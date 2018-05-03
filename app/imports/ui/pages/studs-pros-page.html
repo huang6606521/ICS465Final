@@ -1,0 +1,44 @@
+<template name="Studs_Pros_Page">
+
+  <div class="ui raised segment container">
+    <form id="search">
+      <div class="ui category search">
+        <div class="ui icon input">
+          <input class="prompt" type="text" id="searchValue" placeholder="Search By Stud/Pro...">
+          <i class="search icon"></i>
+        </div>
+        <button type="submit" class="ui teal search button">Search</button>
+        <div class="results"></div>
+      </div>
+    </form>
+    {{#if Template.subscriptionsReady}}
+    <table class="ui celled table">
+      <thead>
+      <tr>
+        <th>Studs</th>
+        <th>Pros</th>
+        <th>Name</th>
+        <th>Major</th>
+        <th>Course</th>
+        <th>More Info</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each users in search}}
+      <tr>
+        <td>{{users.studs}}</td>
+        <td>{{users.pros}}</td>
+        <td>{{users.name}}</td>
+        <td>{{users.major}}</td>
+        <td>{{users.course}}</td>
+
+        <td><a href="{{pathFor 'User_Profile_Detail_Page' _id=users._id}}"><label class="ui label">More Info</label></a></td>
+      </tr>
+      {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    {{> Loading}}
+    {{/if}}
+  </div>
+</template>

@@ -1,0 +1,78 @@
+<template name="Create_New_User_Modal">
+  <div class="ui segment container">
+    <form class="ui form new-user">
+      <h4 class="ui dividing header">Create Your Profile</h4>
+      <div class="field">
+
+        <div class="two fields">
+          <div class="required field">
+            <label>First Name</label>
+            <input type="text" name="firstname" placeholder="First Name">
+            {{#if displayFieldError 'firstname' }}
+              <div class="ui red message">
+                You must specify your first name.
+              </div>
+            {{/if}}
+          </div>
+
+          <div class="required field">
+            <label>Last Name</label>
+            <input type="text" name="lastname" placeholder="Last Name">
+            {{#if displayFieldError 'lastname' }}
+              <div class="ui red message">
+                You must specify your last name.
+              </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <label>Profile Picture URL</label>
+            <input type="text" name="profilePicture" placeholder="URL of your profile picture">
+            {{#if displayFieldError 'profilePicture' }}
+              <div class="ui red message">
+                <p>You must specify a URL for your profile picture.</p>
+              </div>
+            {{/if}}
+          </div>
+
+          <div class="field">
+            <label>Interests</label>
+            <input type="text" name="interests" placeholder="List a few of your interests.">
+          </div>
+        </div>
+
+        <div class="ui accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+            Terms and Conditions
+          </div>
+          <div class="content">
+            <p class="transition visible" style="display: block !important;">This application has been developed by
+              students at the University of Hawaii. It is provided on a pilot basis and there are no guarantees
+              regarding future access to this system. All users are expected to adhere to the principles specified in
+              the University of Hawaii Systemwide Student Conduct Code. The developers reserve the right to ban access
+              to this system by any students who violate this code of conduct or otherwise display inappropriate
+              behavior on the site.</p>
+          </div>
+        </div>
+
+        <div class="required ield">
+          <div class="ui checkbox">
+            <input name="terms" id="Terms" type="checkbox" tabindex="0">
+            <label>I agree to the terms of use</label>
+            {{#if displayFieldError 'terms'}}
+              <div class="ui red message">
+                <p>You must agree to the terms of use.</p>
+              </div>
+            {{/if}}
+          </div>
+
+        </div>
+      </div>
+      <button class="ui teal button" type="submit">Create Profile</button>
+    </form>
+  </div>
+
+</template>

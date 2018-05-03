@@ -1,0 +1,88 @@
+<template name="Study_Session_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>Here's a listing of all the upcoming study sessions. Click on "More Info" to see a more detailed description of
+        the session and join it.</p>
+      <p>* NOTE: the search bar is capitalization sensitive</p>
+    </div>
+  {{/if}}
+
+  <div class="ui raised segment container">
+    <form id="search">
+      <div class="ui category search">
+        <div class="ui icon input">
+          <input class="prompt" type="text" id="searchValue" placeholder="Search By Course...">
+          <i class="search icon"></i>
+        </div>
+        <button type="submit" class="ui teal search button">Search</button>
+        <button class="ui red button reset">Reset Search</button>
+
+        <div class="ui right floating labeled icon dropdown button">
+          <i class="sort icon"></i>
+          <span class="text">Sort</span>
+          <div class="menu">
+            <div class="header">
+              Sort by
+            </div>
+            <div class="divider"></div>
+            <div class="item">
+              <i class="calendar icon"></i>
+              <span class="text" id="sortItem">Date</span>
+            </div>
+            <div class="item">
+              <i class="book icon"></i>
+              <span class="text" id="sortItem">Course Number (Low to High)</span>
+            </div>
+            <div class="item">
+              <i class="book icon"></i>
+              <span class="text" id="sortItem">Course Number (High to Low)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <div class="ui container" id="cards">
+    <div class="ui link cards">
+      {{#if Template.subscriptionsReady}}
+        {{#each sessions in search}}
+          <a style="color: black" class="ui card" href="study-session/{{sessions._id}}">
+            <div class="content">
+              <div class="header">{{sessions.course}}</div>
+            </div>
+            <div class="content">
+              <p>{{sessions.title}}</p>
+              <p>{{sessions.startString}} - {{sessions.endString}}</p>
+            </div>
+            <div class="extra content">
+              <a href="study-session/{{sessions._id}}">
+                <button class="ui button">Session Details</button>
+              </a>
+            </div>
+          </a>
+        {{/each}}
+      {{else}}
+        {{> Loading}}
+      {{/if}}
+    </div>
+  </div>
+
+  <script>
+    $('.message .close')
+        .on('click', function () {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>

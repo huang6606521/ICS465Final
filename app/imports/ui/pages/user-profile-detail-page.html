@@ -1,0 +1,107 @@
+<template name="User_Profile_Detail_Page">
+    {{#if userExists}}
+      {{#if hasTutorial}}
+        <div class="ui yellow message transition container">
+          <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+          <i class="close icon"></i>
+          <div class="header">
+            <h1>Tutorial</h1>
+          </div>
+          <p>Here you are viewing a profile page. You may not edit this page, as it may belong to someone else. Get to know
+            others by checking out their profiles.</p>
+          <h2 style="margin: 0px;">What's a Pro and Stud?</h2>
+          <h3>"Pros" = Professionals</h3>
+          <p>Users list courses they're strong in under "Pros". If you're having difficulties with some of these subjects,
+            consider asking this user if they can help you out!</p>
+          <h3>"Studs" = Students</h3>
+          <p>Users list courses they're weak in under "Studs". See any courses you can offer help in? We encourage you to reach
+            out to them in assistance.</p>
+        </div>
+      {{/if}}
+
+      {{#if Template.subscriptionsReady}}
+
+        <div class="ui raised segment container">
+          <h2>{{ getUserName }}</h2>
+        </div>
+
+        <div class="ui three column grid container">
+          <div class="row">
+            <div class="ui four wide column">
+              <div class="ui raised card profile">
+                <img class="ui medium fluid image" src="{{ getUser.profilePicture }}">
+                <p>Interests: {{ getUser.interests }}</p>
+                <div class="extra">Rate:
+                  <div class="ui centered huge star rating" data-rating={{getAverageRate}} data-max-rating="5"></div>
+                </div>
+                {{#with getUserReview}}
+                <a href="{{ pathFor 'Review_Page' _id=_id }}">
+                  <div class="ui bottom attached reviews button">
+                    Reviews
+                  </div>
+                </a>
+                {{/with}}
+              </div>
+              {{#if hasTutorial}}
+                <div class="ui yellow message transition container">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    <h3>Let's give them a review!</h3>
+                  </div>
+                  <p>Have you studied with this person before? Leave them a rating and review by clicking the "Reviews" button above.</p>
+                </div>
+              {{/if}}
+            </div>
+
+            <div class="ui twelve wide column">
+              <div class="ui raised segment">
+                <a class="ui huge teal ribbon label">Pros</a>
+
+                <div class="ui divided selection list">
+                  {{#each course in prosList}}
+                    <a class="item">
+                      <div class="ui big {{ getProfLevelColor course.profLevel }} horizontal label">{{course.course}}</div>
+                      {{getCourseTitle course.course}}
+                    </a>
+                  {{/each}}
+                </div>
+              </div>
+
+              <div class="ui twelve wide column">
+                <div class="ui raised segment">
+                    <a class="ui huge green ribbon label">Studs</a>
+                    <div class="ui divided selection list">
+
+                      {{#each course in studsList}}
+                        <a class="item">
+                            <div class="ui big {{ getProfLevelColor course.profLevel }} horizontal label">{{course.course}}</div>
+                            {{getCourseTitle course.course}}
+                        </a>
+                      {{/each}}
+                    </div>
+                </div>
+          </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <script>
+          $('.ui.rating').rating('disable');
+          $('.message .close').on('click', function() {
+            $(this)
+                .closest('.message')
+                .transition('fade')
+            ;
+          })
+          ;
+        </script>
+
+      {{else}}
+        {{>Loading}}
+      {{/if}}
+    {{else}}
+        {{> App_Not_Found}}
+    {{/if}}
+</template>

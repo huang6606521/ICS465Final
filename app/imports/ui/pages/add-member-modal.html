@@ -1,0 +1,36 @@
+<template name="Add_Member_Modal">
+
+  {{#if Template.subscriptionsReady}}
+  <div class="ui raised segment container">
+    <form class="ui form add-member-form {{errorClass}} {{successClass}}">
+      <h3 class="ui dividing header">Add members</h3>
+      <div class="field">
+        <div class="required wide field">
+          <label>Username</label>
+          <div class="ui input">
+            <input type="text" name="member" id="member" placeholder="Search Username">
+            <button class="ui teal right floated button submit" type="submit">Add Member</button>
+          </div>
+          {{#if displayErrorMessage}}
+          <div class="ui negative message">
+            <p>This user does not exist or is already in this group.</p>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </form>
+    <p></p>
+    <button class="ui red button exit">Exit</button>
+
+    <!--<div class="ui warning message">-->
+      <!--<div class="header">-->
+        <!--Heads up!-->
+      <!--</div>-->
+      <!--Currently there are no other users for this app, so you can only add imaginary members to the club! This will be ready soon so please stay tuned!-->
+    <!--</div>-->
+  </div>
+
+  {{else}}
+  {{>Loading}}
+  {{/if}}
+</template>

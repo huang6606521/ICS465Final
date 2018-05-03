@@ -1,0 +1,15 @@
+<template name="Study_Session_Page_Search">
+
+    <form id="search">
+      <input type="text" id="searchValue" placeholder="Enter search terms here."/>
+      <button>Search</button>
+    </form>
+    <hr/>
+    <h1>Messages</h1>
+    <ol>
+      {{#each session in search}}
+      <li>{{session.course}}</li>
+      {{/each}}
+    </ol>
+
+</template>

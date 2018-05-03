@@ -1,0 +1,42 @@
+<template name="Calendar_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>This calendar displays all upcoming study sessions, not just the ones you joined. Click on an existing study
+        session will show it's details.</p>
+      <h2 style="margin: 0px;">Making a New Study Session</h2>
+      <p>Click on any day to create a study session on that date.</p>
+      <h2 style="margin: 0px;">Joining an Existing Study Session</h2>
+      <p>Click on an existing study session to see it's details. There will also be an option to join that session as
+        either a Stud or a Pro. In addition, visit the <a href="study-session">Study Sessions</a> page to search through
+        upcoming study sessions.</p>
+    </div>
+  {{/if}}
+
+  <div class="ui raised segment container">
+    <!--Add the events calendar to the template.-->
+    <div id="sessions-calendar"></div>
+  </div>
+
+  <div id="create-study-session-modal" class="ui modal">
+    {{>Create_Study_Session_Modal}}
+  </div>
+
+
+  <script>
+    $('.message .close')
+        .on('click', function() {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>
+

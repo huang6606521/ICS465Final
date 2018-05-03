@@ -1,0 +1,96 @@
+<template name="Study_Session_Detail_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>This page shows the details of the study session you selected.</p>
+      <h2 style="margin: 0px;">Join as a Pro</h2>
+      <p>Select "Join as a Pro" to be a tutor during this study session. Pros can add topics they'll be able to teach at
+        this session.</p>
+      <h2 style="margin: 0px;">Join as a Stud</h2>
+      <p>Select "Join as a Stud" to be a tutee during this study session.</p>
+      <h2 style="margin: 0px;">Leaving a Session</h2>
+      <p>If you decide to leave a study session after joining, select "Leave Study Session" to be removed as a
+        participant. Note, however, that study sessions found without participants will be deleted by
+        administrators.</p>
+    </div>
+  {{/if}}
+
+  <div class="ui raised segment container">
+    <h1 class="ui header"> {{ findSession.title }} Study Session Details
+    {{#if isCreator}}
+      <button class="ui red right floated button delete">Delete Study Session</button>
+    {{/if}}
+    </h1>
+    <a class="ui big blue ribbon label">Time</a>
+    <div class="ui bulleted list">
+      <div class="item">Duration: {{ getDuration findSession }}hr.</div>
+      <div class="item">Start Time: {{ findSession.startString }}</div>
+      <div class="item">End Time: {{ findSession.endString }}</div>
+    </div>
+
+    <a class="ui big blue ribbon label">Topics</a>
+    <div class="ui bulleted list">
+      {{#each topic in findSession.topic}}
+        <div class="item">
+          {{#if isPro}}<i class="remove circle icon" id="{{topic}}"></i> {{/if}}
+          {{topic}}
+        </div>
+      {{/each}}
+      {{#if isPro}}
+        <div class="item">
+          Add a topic:
+          <form class="ui form add-topic">
+            <div class="eight wide field">
+              <div style="margin-top: 5px" class="ui action input">
+                <input type="text" name="addTopic" placeholder="Additional Topic">
+                <button class="ui blue button" type="submit">Add</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      {{/if}}
+    </div>
+
+    <a class="ui big teal ribbon label">Pros Signed Up</a>
+    <div class="ui bulleted list">
+      {{#each guest in findSession.guestsPros}}
+        <div class="item"><a href="/user-profile/{{findUserId guest}}">{{guest}}</a></div>
+      {{/each}}
+    </div>
+
+    <a class="ui big green ribbon label">Studs Signed Up</a>
+    <div class="ui bulleted list">
+      {{#each guest in findSession.guestsStuds}}
+        <div class="item"><a href="/user-profile/{{findUserId guest}}">{{guest}}</a></div>
+      {{/each}}
+    </div>
+
+    {{#unless hasJoined}}
+      <div class="ui buttons">
+        <button class="ui teal join-pro button" type="button">Join as a Pro</button>
+        <div class="or"></div>
+        <button class="ui green join-stud button" type="button">Join as a Stud</button>
+      </div>
+    {{/unless}}
+    {{#if hasJoined}}
+      <button class="ui teal button leave">Leave Study Session</button>
+      <p style="display: inline">Sessions without participants will be deleted.</p>
+    {{/if}}
+  </div>
+
+  <script>
+    $('.message .close')
+        .on('click', function() {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>

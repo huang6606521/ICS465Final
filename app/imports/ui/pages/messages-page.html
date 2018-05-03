@@ -1,0 +1,65 @@
+<template name="Messages_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>Here you can chat with all other online users. Please be polite!</p>
+    </div>
+  {{/if}}
+
+  <div class="ui raised segment container">
+    <div class="ui grid">
+      <div class="ui grid container" id="message-container"
+           style="overflow-y:auto; overflow-x:hidden; height:400px; margin: 0px;">
+        {{#if Template.subscriptionsReady}}
+        {{#each message in messagesList}}
+        {{updateScroll}}
+        {{#if ifUser message.user}}
+        <div class="four column row">
+          <div class="right floated column">
+            <div class="ui right aligned blue segment">
+              <p><strong>{{message.user}}:</strong> {{message.message}}</p>
+            </div>
+          </div>
+        </div>
+        {{else}}
+        <div class="two column row">
+          <div class="left floated column">
+            <div class="ui red segment">
+              <p><strong>{{message.user}}:</strong> {{message.message}}</p>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        {{updateScroll}}
+        {{clearThis}}
+        {{/each}}
+        {{else}}
+        {{> Loading}}
+        {{/if}}
+      </div>
+    </div>
+    <form class="new-message">
+      <div class="ui large fluid action icon input" style="margin: 15px;">
+        <input type="text" placeholder="Message" id="message" name="message">
+        <i class="send icon"></i>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    $('.menu .vertical .item').tab();
+    $('.message .close')
+        .on('click', function() {
+          $(this)
+              .closest('.message')
+              .transition('fade')
+          ;
+        })
+    ;
+  </script>
+
+</template>
