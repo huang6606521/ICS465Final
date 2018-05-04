@@ -1,4 +1,6 @@
 <template name="Public_Landing_Page">
+
+  <!--
   <div style="padding-bottom:185px" class="ui raised segment container home">
     <h1 class="ui header">What is Collaborative Study?</h1>
     <img class="ui medium floated right image" src="/images/Neal.png">
@@ -7,4 +9,139 @@
     <img class="ui medium floated left image" src="http://www.ics.hawaii.edu/wp-content/uploads/2015/09/post318b.jpg">
     <p>All CS meetings are held in the ICSpace located in POST 318B, which is open 24/7/365. The ICSpace is an interactive classroom intended for the use of the ICS Community. Click <a href="http://www.ics.hawaii.edu/community/post-318b/">here</a> for more information about the ICSpace.</p>
   </div>
+  -->
+  <img class="ui centered large image" src="/../images/sb.png">
+  <div class="text-container">
+
+    <p class="my-segment"><i class="horizontally flipped sign language icon"></i>Hello there<i class="sign language icon"></i></p>
+    <p class="my-segment"><i class="horizontally flipped sign language icon"></i>Welcome to Study Buddy<i class="sign language icon"></i></p>
+    <p class="my-segment">-
+      <span class="txt-rotate" data-period="2000" data-rotate='[ "Do you have any problem on homework?", "Are you looking for help?", "Do you have the passion to teach?", "Come on and join Study Buddy." ]'>
+      </span>
+    </p>
+  </div>
+
+  <div class="video-container">
+    <img style="width: 100%; margin-top: 30px" src="/../images/study.jpg">
+    <div style="margin-top: -150px" class="centered-stuff">
+      <h1><span>Introducing</span></h1>
+      <h1>the Workflow of Study Buddy</h1>
+      <div class="links">
+        <a class="openpop" href="https://www.youtube.com/watch?v=ghjrFkSbQrY&feature=youtu.be"><i class="huge play circle icon"></i></a>
+      </div>
+      <div class="wrapper">
+        <div class="popup">
+          <iframe src="">
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+          <a href="#" class="close">X</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    body {
+      background-image: url("/../images/post.jpg");
+      background-size: cover;
+    }
+    .text-container {
+      border-radius: 30px;
+      margin: 0 auto;
+      width: 800px;
+      background-color: deepskyblue;
+      padding-top: 10px;
+      text-align: center;
+      color: white;
+      font-size: 70px;
+      font-family: "Arial Black", Gadget, sans-serif;
+    }
+    .my-segment {
+      margin-top: -20px;
+      font-size: 30px;
+    }
+    .video-container {
+      position: relative;
+      text-align: center;
+      color: darkorange;
+    }
+    .centered-stuff {
+      position: absolute;
+      top: 50%;
+      left: 40%;
+    }
+  </style>
+  <script>
+    var TxtType = function(el, toRotate, period) {
+      this.toRotate = toRotate;
+      this.el = el;
+      this.loopNum = 0;
+      this.period = parseInt(period, 10) || 2000;
+      this.txt = '';
+      this.tick();
+      this.isDeleting = false;
+    };
+
+    TxtType.prototype.tick = function() {
+      var i = this.loopNum % this.toRotate.length;
+      var fullTxt = this.toRotate[i];
+
+      if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+      } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+      }
+
+      this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+      var that = this;
+      var delta = 200 - Math.random() * 100;
+
+      if (this.isDeleting) { delta /= 2; }
+
+      if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 500;
+      }
+
+      setTimeout(function() {
+        that.tick();
+      }, delta);
+    };
+
+
+    var elements = document.getElementsByClassName('txt-rotate');
+    for (var i=0; i<elements.length; i++) {
+      var toRotate = elements[i].getAttribute('data-rotate');
+      var period = elements[i].getAttribute('data-period');
+      if (toRotate) {
+        new TxtType(elements[i], JSON.parse(toRotate), period);
+      }
+    }
+    var css = document.createElement("style");
+    css.type = "text/css";
+    css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+    document.body.appendChild(css);
+
+    // http://jsfiddle.net/wxasfymL/3/
+    $(document).ready(function () {
+      $(".popup").hide();
+      $(".openpop").click(function (e) {
+        e.preventDefault();
+        $("iframe").attr("src", $(this).attr('href'));
+        $(".links").fadeOut('slow');
+        $(".popup").fadeIn('slow');
+      });
+
+      $(".close").click(function () {
+        $(this).parent().fadeOut("slow");
+        $(".links").fadeIn("slow");
+      });
+    });
+  </script>
 </template>
