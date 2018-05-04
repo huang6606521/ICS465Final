@@ -1,13 +1,107 @@
 <template name="Footer">
   <footer>
     {{#unless currentUser}}
+    <div class="back-ground">
+      <div class="ui container colorblocktop">
+        <div style="margin-bottom: 50px" class="ui three column grid container">
+          <div class="column">
+            <h1>About us</h1>
+            <hr/>
+            <div>ICS 465 Final Project</div>
+            <hr/>
+            <div>Hongbo Lin & Jipeng Huang</div>
+            <hr/>
+            Based on the ICS 314 Final Project of Jipeng' Team <br/>
+            <hr/>
+            Department of Information and Computer Sciences <br/>
+
+            University of Hawaii<br/>
+
+            Honolulu, HI 96822
+
+          </div>
+          <div class="column">
+            <img class="ui large image" src="/images/sb.png">
+          </div>
+          <div class="column">
+            <h1>Suggestion and compliance</h1>
+            <hr/>
+            <form class="ui form" action="mailto:hubert.1.lin@gmail.com" method="post" enctype="text/plain">
+              <div class="field">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Name">
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="text" name="mail" placeholder="Email">
+              </div>
+              <div class="field">
+                <label>Message</label>
+                <textarea rows="4" name="message" placeholder="Tell me something..."></textarea>
+              </div>
+              <input id="button" type="submit" value="Send">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--
     <div style="padding-top: 15px" class="ui center aligned container">
     <hr>
     Department of Information and Computer Sciences <br />
     University of Hawaii<br />-
     Honolulu, HI 96822
     </div>
+    -->
     {{/unless}}
 
   </footer>
+  <style>
+    .back-ground {
+      background-color: deepskyblue;
+      color: whitesmoke;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    #button {
+
+      border-radius: 10px;
+      color: black;
+    }
+
+  </style>
+  <script>
+    $('.ui.form')
+        .form({
+          fields: {
+            name: {
+              identifier: 'name',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your name'
+                }
+              ]
+            },
+            mail: {
+              identifier: 'mail',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your email'
+                }
+              ]
+            },
+            message: {
+              identifier: 'message',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your message'
+                }
+              ]
+            },
+          }
+        });
+  </script>
 </template>

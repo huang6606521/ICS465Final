@@ -23,7 +23,7 @@
 
   <div class="video-container">
     <img style="width: 100%; margin-top: 30px" src="/../images/study.jpg">
-    <div style="margin-top: -150px" class="centered-stuff">
+    <div class="centered-stuff">
       <h1><span>Introducing</span></h1>
       <h1>the Workflow of Study Buddy</h1>
       <div class="links">
@@ -34,8 +34,9 @@
           <iframe src="">
             <p>Your browser does not support iframes.</p>
           </iframe>
+          <!--
           <a href="#" class="close">X</a>
-
+          -->
         </div>
       </div>
     </div>
@@ -69,7 +70,8 @@
     .centered-stuff {
       position: absolute;
       top: 50%;
-      left: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   </style>
   <script>
@@ -137,11 +139,11 @@
         $(".links").fadeOut('slow');
         $(".popup").fadeIn('slow');
       });
-
+/*
       $(".close").click(function () {
         $(this).parent().fadeOut("slow");
         $(".links").fadeIn("slow");
-      });
+      });*/
     });
   </script>
 </template>
