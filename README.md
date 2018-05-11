@@ -1,3 +1,5 @@
-# CS (Collaborative Study)
+# Study Buddy
 
-See the progress of our study session scheduling app at our <a href="https://collaborativestudy.github.io/"> organization home page</a>!
+This is our final project for ICS 465.
+
+It is an extension work to Jipeng Huang's team ICS 314 Final Project.

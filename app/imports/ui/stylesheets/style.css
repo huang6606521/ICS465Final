@@ -70,3 +70,47 @@ a.login-close-text {
 .calendar-topic {
   margin: 0;
 }
+
+#snakegame {
+  z-index: 1;
+  border: solid;
+  background-color: black;
+}
+
+#score {
+  position: absolute;
+  z-index: 2;
+  color: green;
+  margin: 10px auto auto 420px;
+}
+
+#snakecontainer {
+  position: relative;
+  left: 50%;
+  margin-left: -250px;
+}
+
+#w5 {
+  border: solid;
+  border-color: white;
+  background-color: deepskyblue;
+  margin: 0 auto;
+}
+#w5container {
+  text-align: center;
+}
+#bubblebuttons {
+  text-align: center;
+}
+
+#redo {
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+#undo {
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}

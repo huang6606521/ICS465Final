@@ -14,3 +14,6 @@ import './loading.html';
 import './not-authorized.html';
 import './profile-dropdown.html';
 import './profile-dropdown.js';
+
+import './game-dropdown.html';
+import './game-dropdown.js';

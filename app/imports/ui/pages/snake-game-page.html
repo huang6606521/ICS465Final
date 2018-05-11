@@ -1,0 +1,289 @@
+<template name="Snake_Game_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+      <p>Here is the snake game, use arrow key to move</p>
+      <p>* NOTE: Eat more, don't die</p>
+    </div>
+  {{/if}}
+  <div id="snakecontainer">
+    <div id="score"></div>
+    <canvas id="snakegame" style="border: solid" width="500" height="500">
+      <h1>Your Browser does not support canvas.</h1>
+    </canvas>
+  </div>
+
+
+  <script>
+
+    // get canvas element and its content
+    var canvas = document.getElementById("snakegame");
+    var context = canvas.getContext("2d");
+
+    var scoreboard = document.getElementById("score");
+
+    // state: start --> the menu page
+    var state = "start";
+    var speed = 100;
+
+    // The Game object function
+    function Game() {
+      this.direction = "down";
+      this.snakeArray = [];
+      this.food = null;
+      this.timer = null;
+      this.score = 0;
+    }
+
+    // add new method to Game constructor: initGame
+    Game.prototype.initGame = function() {
+      for (var i = 0; i < 4; i++) {
+        this.snakeArray.push(new Square(20 * i, 20, "green"));
+      }
+      this.drawSnake();
+      this.food = this.randomFood();
+      this.drawFood();
+    };
+
+    /*
+     * add new method to move the snake
+     */
+    Game.prototype.moveSnake = function() {
+
+      /* if eat the food:
+       *   * insert the food after the head of snake and change
+       *     its color and keep the rest of body unchanged
+       *   * generate new food
+       *   * increase score
+       *
+       * else
+       *   * instead moving all the snake body, pop out the tail
+       *     insert after head
+       */
+      if (this.food.x == this.snakeArray[0].x && this.food.y == this.snakeArray[0].y) {
+        this.score += 1;
+        scoreboard.innerHTML = "SCORE: " + this.score;
+        this.food.c = "green";
+        this.snakeArray.splice(1, 0, this.food);
+        this.food = this.randomFood();
+      } else {
+        var tail = this.snakeArray.pop();
+
+        tail.x = this.snakeArray[0].x;
+        tail.y = this.snakeArray[0].y;
+
+        this.snakeArray.splice(1, 0, tail);
+      }
+
+      // snake movement base on direction
+      if (this.direction == "left") {
+        this.snakeArray[0].x -= 20;
+      }
+      else if (this.direction == "up") {
+        this.snakeArray[0].y -= 20;
+      }
+      else if (this.direction == "right") {
+          this.snakeArray[0].x += 20;
+        }
+        else if (this.direction == "down") {
+            this.snakeArray[0].y += 20;
+          }
+
+      // if hit walls, game over
+      if (this.snakeArray[0].x < 0 || this.snakeArray[0].x >= canvas.width
+          || this.snakeArray[0].y < 0 || this.snakeArray[0].y >= canvas.height) {
+        clearInterval(this.timer);
+      }
+
+      // if collide with the body, game over
+      if (this.checkCollision(this.snakeArray[0].x, this.snakeArray[0].y, this.snakeArray, 1)) {
+        clearInterval(this.timer);
+      }
+    };
+
+    // new method to draw snake by looping through snakeArray
+    Game.prototype.drawSnake = function() {
+      for (var i = 0; i < this.snakeArray.length; i++) {
+        this.snakeArray[i].draw();
+      }
+    };
+
+    // new method to create random food in bound and not on snake
+    Game.prototype.randomFood = function() {
+      var foodx, foody;
+
+      while(true) {
+        foodx = (Math.floor(Math.random() * 20)) * 20;
+        foody = (Math.floor(Math.random() * 20)) * 20;
+
+        if (! this.checkCollision(foodx, foody, this.snakeArray, 0)) {
+          break;
+        }
+      }
+
+      return new Square(foodx, foody,"white");
+    };
+
+    // new method to draw the food
+    Game.prototype.drawFood = function() {
+      this.food.draw();
+    };
+
+    // check if collide with snake
+    Game.prototype.checkCollision = function(x, y, arr, index) {
+      for (var i = index; i < arr.length; i++) {
+        if (x == arr[i].x && y == arr[i].y) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    /*
+     * Add new method to control movement of snake, prevent going back
+     * 37 --> left arrow key
+     * 38 --> up arrow key
+     * 39 --> right arrow key
+     * 40 --> down arrow key
+     */
+    Game.prototype.moveControl = function(event) {
+      var e = event || window.event;
+
+      switch (e.keyCode) {
+        case 37:
+          if (this.direction != "right") {
+            this.direction = "left";
+          }
+          break;
+
+        case 38:
+          if (this.direction != "down") {
+            this.direction = "up";
+          }
+          break;
+
+        case 39:
+          if (this.direction != "left") {
+            this.direction = "right";
+          }
+          break;
+
+        case 40:
+          if (this.direction != "up") {
+            this.direction = "down";
+          }
+          break;
+      }
+      e.preventDefault();
+    };
+
+
+    function getMousePos(canvas, event) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+    function isInside(pos, rect){
+      return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+    }
+
+    // play now box bounding use to check click
+    var rect = {
+      x:150,
+      y:410,
+      width:200,
+      height:55
+    };
+
+    canvas.addEventListener('click', function(evt) {
+      var mousePos = getMousePos(canvas, evt);
+      if (state == "start") {
+        if (isInside(mousePos,rect)) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          state = "running";
+          scoreboard.innerHTML = "SCORE: 0";
+          var game = new Game();
+          game.initGame();
+          document.addEventListener('keydown', game.moveControl.bind(game), false);
+          game.timer = setInterval(function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            game.moveSnake();
+            game.drawSnake();
+            game.drawFood();
+          }, speed);
+        }
+      }
+    }, false);
+
+    /*
+     * Initial page, start menu
+     */
+    function init() {
+      // save default values for context
+      context.save();
+
+      // game title
+      context.font = "70pt Comic Sans MS";
+      context.fillStyle = "green";
+      context.textAlign = "center";
+      context.fillText("SNAKE", canvas.width/2, 150);
+
+      // display arrow keys image
+      var img = new Image();
+      img.src = "arrows.png";
+      img.onload = function () {
+        context.drawImage(img, 300, 220, 80, 80);
+      };
+
+      // display rules
+      context.textAlign = "left";
+      context.font = "15pt Comic Sans MS";
+      context.fillText("> Use arrow keys", 120, 250);
+      context.fillText("  to control snake", 120, 275);
+      context.fillText("> Do not hit wall or snake", 120, 310);
+      context.fillText("> Eat as many food you can", 120, 345);
+
+      // play now box
+      context.rect(150, 410, 200, 55);
+      context.lineWidth = "4";
+      context.strokeStyle = "green";
+      context.stroke();
+
+      // Play Now text
+      context.font = "30pt Comic Sans MS";
+      context.textAlign = "center";
+      context.fillText("Play Now", 250, 450);
+
+      // restore default value
+      context.restore();
+    }
+
+
+    // Square object can be use as food or snake parts
+    function Square(x, y, c) {
+      this.x = x;
+      this.y = y;
+      this.c = c;
+    }
+
+    // draw the square
+    Square.prototype.draw = function() {
+      context.beginPath();
+      context.fillStyle = this.c;
+      context.rect(this.x, this.y, 20, 20);
+      context.fill();
+      context.stroke();
+    };
+
+
+    init();
+
+  </script>
+
+</template>

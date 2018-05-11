@@ -1,0 +1,141 @@
+<template name="Bubble_Page">
+  {{#if hasTutorial}}
+    <div class="ui yellow message transition container">
+      <p style="font-size: 14px;">Want to turn off tutorials? Toggle the tutorials on and off with the rightmost button of the top menu. </p>
+      <i class="close icon"></i>
+      <div class="header">
+        <h1>Tutorial</h1>
+      </div>
+    </div>
+  {{/if}}
+
+  <div id="bubblebuttons">
+    <button id="undo"><i class="fas fa-reply"></i> Undo</button>
+    <button id="redo"><i class="fas fa-share"></i> Redo</button>
+  </div>
+  <div id="w5container">
+    <canvas id="w5" width="600" height="500">
+      <h1>Your Browser does not support canvas.</h1>
+    </canvas>
+  </div>
+
+
+  <script>
+
+    // get canvas element and it context
+    var canvas = document.getElementById("w5");
+    var context = canvas.getContext("2d");
+
+    // redo and undo button
+    var undoButton = document.getElementById("undo");
+    var redoButton = document.getElementById("redo");
+
+    // circle array for holding all circles
+    var circle_array = [];
+
+    // current state
+    var current = 0;
+
+    // disable both button initially
+    undoButton.disabled = true;
+    redoButton.disabled = true;
+
+    // function for getting mouse position
+    function getMousePos(event) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      };
+    }
+
+    /*
+     * circle constructor
+     * paramters:
+     *   x: x coordinate of center
+     *   y: y coordinate of center
+     *   r: radius of circle
+     */
+    function Circle(x, y, r) {
+      this.x = x;
+      this.y = y;
+      this.r = r;
+      this.color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    }
+
+    // function for drawing the circle
+    Circle.prototype.draw = function() {
+      context.beginPath();
+      context.fillStyle = this.color;
+      context.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+      context.fill();
+    }
+
+    // click event, add circle at click position
+    canvas.addEventListener('click', function(event) {
+      var mousePos = getMousePos(event);
+      var cir = new Circle(mousePos.x, mousePos.y, Math.random() * 20 + 2);
+      // splice the array from 0 to current and push new circle
+      circle_array.splice(current);
+      circle_array.push(cir);
+      // update current
+      current = circle_array.length;
+      cir.draw();
+
+      updateButton();
+    }, false);
+
+    // undo button click event
+    undoButton.addEventListener("click", function() {
+      // if (current <= 0) return;
+
+      // clear canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // go to previous state and draw all circles
+      current --;
+      for (var i = 0; i < current; i++) {
+        circle_array[i].draw();
+      }
+
+      // update all buttons
+      updateButton();
+    });
+
+    // redo button click event
+    redoButton.addEventListener("click", function() {
+      // if (current >= circle_array.length) return;
+      // clear canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      // go to next state and draw all circles
+      current ++;
+      for (var i = 0; i < current; i++) {
+        circle_array[i].draw();
+      }
+      // update buttons
+      updateButton();
+    });
+
+    // update both buttons according to current variable
+    function updateButton() {
+      // enable both if in middle
+      if (current > 0 && current < circle_array.length) {
+        undoButton.disabled = false;
+        redoButton.disabled = false;
+      }
+      // if oldest state, then disable undo and enable redo
+      else if (current <= 0) {
+        undoButton.disabled = true;
+        redoButton.disabled = false;
+      }
+      // if newest state, then enable undo and disable redo
+      else if (current >= circle_array.length) {
+          redoButton.disabled = true;
+          undoButton.disabled = false;
+        }
+    }
+
+
+  </script>
+
+</template>

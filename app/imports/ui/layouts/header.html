@@ -18,6 +18,7 @@
       <!--<a class="{{ isActiveRoute 'Studs_Pros_Page'}} item" href="{{ pathFor 'Studs_Pros_Page' }}">Studs/Pros</a>-->
       <a class="{{ isActiveRoute 'Calendar_Page'}} item" href="{{ pathFor 'Calendar_Page' }}">Calendar</a>
       <a class="{{ isActiveRoute 'Messages_Page'}} item" href="{{ pathFor 'Messages_Page' }}">Chat Room</a>
+      {{> Game_Dropdown}}
       {{#if isAdmin}}
       <a class="{{ isActiveRoute 'Reports_Page'}} item" href="{{ pathFor 'Reports_Page' }}">Reports</a>
       {{/if}}

@@ -135,3 +135,17 @@ FlowRouter.route('/events', {
     BlazeLayout.render('App_Body', { main: 'events' });
   },
 });
+
+FlowRouter.route('/snake', {
+  name: 'Snake_Game_Page',
+  action() {
+    BlazeLayout.render('App_Body', { main: 'Snake_Game_Page' });
+  }
+});
+
+FlowRouter.route('/bubble', {
+  name: 'Bubble_Page',
+  action() {
+    BlazeLayout.render('App_Body', { main: 'Bubble_Page' });
+  }
+});
